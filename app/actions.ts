@@ -23,20 +23,44 @@ export async function wingUp(wingId: string) {
   return { ok: true };
 }
 
-/** Recipient accepts or declines an incoming Wing-Up. */
+/** Recipient accepts or declines an incoming Wing-Up. On accept, also seeds
+ *  the new thread with a friendly auto-message so it's never empty. */
 export async function respondConnection(id: string, status: "connected" | "declined") {
   if (isDemoMode()) return { ok: true, demo: true };
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { ok: false, error: "Not signed in" };
+
+  // Pull the connection so we know who the requester was.
+  const { data: conn } = await supabase
+    .from("wing_connections")
+    .select("user_id, wing_id")
+    .eq("id", id)
+    .maybeSingle();
+  if (!conn || conn.wing_id !== user.id) {
+    return { ok: false, error: "Connection not found or not yours" };
+  }
+
   const { error } = await supabase
     .from("wing_connections")
     .update({ status })
     .eq("id", id)
     .eq("wing_id", user.id);
   if (error) return { ok: false, error: error.message };
+
+  // On accept, seed an opening message from the recipient so the thread isn't empty.
+  if (status === "connected") {
+    await supabase.from("messages").insert({
+      sender_id: user.id,
+      receiver_id: conn.user_id,
+      content: "🪶 We're winged up! What did you have in mind?",
+      moderation_passed: true,
+    });
+  }
+
   revalidatePath("/wings");
   revalidatePath("/messages");
+  revalidatePath(`/messages/${conn.user_id}`);
   return { ok: true };
 }
 

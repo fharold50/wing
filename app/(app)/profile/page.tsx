@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getSession } from "@/lib/session";
+import MediaUploader from "@/components/app/MediaUploader";
 
 export const metadata = { title: "Profile · Wing" };
 
@@ -17,6 +18,12 @@ export default async function ProfilePage() {
       </div>
 
       <div className="profile-grid">
+        <div className="wing-card" style={{ gridColumn: "1 / -1" }}>
+          <div className="wing-meta-name">📸 Photos &amp; video</div>
+          <p className="wing-bio">First photo becomes your cover on Discover. Add a short video to stand out.</p>
+          <MediaUploader photos={me.photos ?? []} primaryVideo={me.primaryVideo} />
+        </div>
+
         <div className="wing-card">
           <div className="wing-meta-name">About</div>
           <p className="wing-bio">{me.bio || "No bio yet."}</p>

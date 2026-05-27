@@ -42,6 +42,7 @@ export const DEMO_WINGS: WingUser[] = [
     isLocalGuide: true, verificationLevel: "id", reputationScore: 4.95,
     isActive: true, gender: "woman", lookingFor: ["any"],
     createdAt: "", lastActive: new Date().toISOString(),
+    photos: ["https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=640&q=80&auto=format&fit=crop"],
   },
   {
     id: "u2", name: "Marcus K.", age: 31, location: "Honolulu, HI",
@@ -54,6 +55,7 @@ export const DEMO_WINGS: WingUser[] = [
     isLocalGuide: true, verificationLevel: "id", reputationScore: 4.88,
     isActive: true, gender: "man", lookingFor: ["any"],
     createdAt: "", lastActive: new Date().toISOString(),
+    photos: ["https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=640&q=80&auto=format&fit=crop"],
   },
   {
     id: "u3", name: "Diego C.", age: 34, location: "Miami, FL",
@@ -66,6 +68,7 @@ export const DEMO_WINGS: WingUser[] = [
     isLocalGuide: true, verificationLevel: "id", reputationScore: 4.91,
     isActive: true, gender: "man", lookingFor: ["any"],
     createdAt: "", lastActive: new Date(Date.now() - 12 * 60_000).toISOString(),
+    photos: ["https://images.unsplash.com/photo-1539367628448-4bc5c9d171c8?w=640&q=80&auto=format&fit=crop"],
   },
   {
     id: "u4", name: "Priya S.", age: 26, location: "Brooklyn, NY",
@@ -78,6 +81,7 @@ export const DEMO_WINGS: WingUser[] = [
     isLocalGuide: false, verificationLevel: "social", reputationScore: 4.83,
     isActive: true, gender: "woman", lookingFor: ["wingwomen", "any"],
     createdAt: "", lastActive: new Date(Date.now() - 4 * 60_000).toISOString(),
+    photos: ["https://images.unsplash.com/photo-1517837125937-53bd402f49d6?w=640&q=80&auto=format&fit=crop"],
   },
   {
     id: "u5", name: "Theo R.", age: 29, location: "Brooklyn, NY",
@@ -102,6 +106,7 @@ export const DEMO_WINGS: WingUser[] = [
     isLocalGuide: true, verificationLevel: "id", reputationScore: 4.97,
     isActive: true, gender: "woman", lookingFor: ["any"],
     createdAt: "", lastActive: new Date(Date.now() - 30 * 60_000).toISOString(),
+    photos: ["https://images.unsplash.com/photo-1488161628813-04466f872be2?w=640&q=80&auto=format&fit=crop"],
   },
   {
     id: "u7", name: "Jordan W.", age: 25, location: "Brooklyn, NY",

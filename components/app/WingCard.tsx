@@ -27,6 +27,8 @@ export default function WingCard({ user }: { user: WingUser }) {
   const [pending, startTransition] = useTransition();
   const [sent, setSent] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  const cover = user.photos?.[0];
+  const extras = (user.photos ?? []).slice(1, 5);
 
   function send() {
     setErr(null);
@@ -42,14 +44,22 @@ export default function WingCard({ user }: { user: WingUser }) {
   }
 
   return (
-    <div className="wing-card">
+    <div className={`wing-card ${cover ? "has-cover" : ""}`}>
       {user.matchPercentage != null && (
         <div className="wing-match">{user.matchPercentage}% match</div>
       )}
-      <div className="wing-card-head">
-        <div className="wing-avatar" style={{ background: pickColor(user.id), color: "#fff" }}>
-          {initials(user.name)}
+      {cover && (
+        <div className="wing-cover">
+          <img src={cover} alt={user.name} />
+          <div className="wing-cover-gradient" />
         </div>
+      )}
+      <div className="wing-card-head">
+        {!cover && (
+          <div className="wing-avatar" style={{ background: pickColor(user.id), color: "#fff" }}>
+            {initials(user.name)}
+          </div>
+        )}
         <div>
           <div className="wing-meta-name">{user.name}</div>
           <div className="wing-meta-sub">
@@ -59,6 +69,11 @@ export default function WingCard({ user }: { user: WingUser }) {
           </div>
         </div>
       </div>
+      {extras.length > 0 && (
+        <div className="wing-photo-strip">
+          {extras.map((p) => <img key={p} src={p} alt="" />)}
+        </div>
+      )}
       {user.bio && <p className="wing-bio">{user.bio}</p>}
       {user.interests.length > 0 && (
         <div className="wing-tags">

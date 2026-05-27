@@ -26,7 +26,9 @@ create table if not exists public.profiles (
   gender text check (gender in ('man','woman','nonbinary','prefer_not_to_say')),
   looking_for text[] default '{any}',
   last_active timestamptz default now(),
-  created_at timestamptz default now()
+  created_at timestamptz default now(),
+  photos text[] default '{}',
+  primary_video text
 );
 
 create table if not exists public.activity_plans (
@@ -265,3 +267,33 @@ create trigger trg_handle_new_user
 alter publication supabase_realtime add table public.messages;
 alter publication supabase_realtime add table public.wing_connections;
 alter publication supabase_realtime add table public.activity_plans;
+
+------------------------------------------------------------
+-- Storage: media bucket (photos + videos) with per-user folder RLS
+------------------------------------------------------------
+
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values (
+  'media', 'media', true, 52428800,
+  array['image/jpeg','image/png','image/webp','image/gif','video/mp4','video/quicktime','video/webm']
+) on conflict (id) do nothing;
+
+drop policy if exists "media_select_public" on storage.objects;
+create policy "media_select_public" on storage.objects
+  for select to public using (bucket_id = 'media');
+
+drop policy if exists "media_insert_own_folder" on storage.objects;
+create policy "media_insert_own_folder" on storage.objects
+  for insert to authenticated
+  with check (bucket_id = 'media' and auth.uid()::text = (storage.foldername(name))[1]);
+
+drop policy if exists "media_update_own_folder" on storage.objects;
+create policy "media_update_own_folder" on storage.objects
+  for update to authenticated
+  using (bucket_id = 'media' and auth.uid()::text = (storage.foldername(name))[1])
+  with check (bucket_id = 'media' and auth.uid()::text = (storage.foldername(name))[1]);
+
+drop policy if exists "media_delete_own_folder" on storage.objects;
+create policy "media_delete_own_folder" on storage.objects
+  for delete to authenticated
+  using (bucket_id = 'media' and auth.uid()::text = (storage.foldername(name))[1]);

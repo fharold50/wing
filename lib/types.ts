@@ -44,6 +44,8 @@ export interface WingUser {
   lookingFor: LookingFor[];
   createdAt: string;
   lastActive: string;
+  photos?: string[];
+  primaryVideo?: string;
 }
 
 export interface ActivityPlan {

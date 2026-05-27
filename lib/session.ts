@@ -22,6 +22,8 @@ type DBRow = {
   looking_for: WingUser["lookingFor"];
   last_active: string;
   created_at: string;
+  photos: string[] | null;
+  primary_video: string | null;
 };
 
 export function rowToUser(r: DBRow): WingUser {
@@ -45,6 +47,8 @@ export function rowToUser(r: DBRow): WingUser {
     lookingFor: r.looking_for ?? ["any"],
     createdAt: r.created_at,
     lastActive: r.last_active,
+    photos: r.photos ?? [],
+    primaryVideo: r.primary_video ?? undefined,
   };
 }
 
