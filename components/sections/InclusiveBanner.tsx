@@ -1,4 +1,4 @@
-import { User } from "lucide-react";
+import { User } from "@/lib/icons";
 
 export default function InclusiveBanner() {
   return (

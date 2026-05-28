@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Globe } from "@/lib/icons";
 import { createClient, isClientDemoMode } from "@/lib/supabase/client";
 
 export default function AuthForm({ mode }: { mode: "signin" | "signup" }) {
@@ -77,7 +78,7 @@ export default function AuthForm({ mode }: { mode: "signin" | "signup" }) {
   return (
     <form onSubmit={submit} className="auth-form">
       <button type="button" onClick={google} className="btn btn-ghost auth-google">
-        <span>🌐</span> Continue with Google
+        <Globe size={16} /> Continue with Google
       </button>
       <div className="auth-divider"><span>or</span></div>
       {mode === "signup" && (
@@ -97,11 +98,11 @@ export default function AuthForm({ mode }: { mode: "signin" | "signup" }) {
       {err && <div className="auth-err">{err}</div>}
       {isClientDemoMode() && (
         <div className="auth-foot" style={{ marginTop: 0, textAlign: "left", fontSize: 12 }}>
-          🎭 <strong>Demo mode</strong> — any email/password will bounce you straight into the app. See <code>SETUP.md</code> to wire up real Supabase auth.
+          <strong>Demo mode</strong> — any email or password will bounce you straight into the app. See <code>SETUP.md</code> to wire up real Supabase auth.
         </div>
       )}
       <button type="submit" disabled={busy} className="btn btn-primary btn-lg auth-submit">
-        {busy ? "..." : mode === "signup" ? "🪶 Create Account" : "Sign In"}
+        {busy ? "..." : mode === "signup" ? "Create account" : "Sign in"}
       </button>
     </form>
   );

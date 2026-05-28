@@ -2,6 +2,7 @@
 
 import { useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import { Plus, X, PaperPlaneTilt } from "@/lib/icons";
 import { createClient, isClientDemoMode } from "@/lib/supabase/client";
 
 const ACCEPT = "image/jpeg,image/png,image/webp,image/gif,video/mp4,video/quicktime,video/webm";
@@ -115,19 +116,19 @@ export default function MediaUploader({ photos: initial, primaryVideo: initialVi
           <div key={url} className="media-tile">
             <img src={url} alt={`photo ${i + 1}`} />
             {i === 0 && <span className="media-badge">Primary</span>}
-            <button type="button" className="media-remove" onClick={() => remove(url, "photo")} aria-label="Remove">×</button>
+            <button type="button" className="media-remove" onClick={() => remove(url, "photo")} aria-label="Remove"><X size={14} /></button>
           </div>
         ))}
         {video && (
           <div className="media-tile">
             <video src={video} muted playsInline />
-            <span className="media-badge" style={{ background: "var(--teal)", color: "#fff" }}>▶ Video</span>
-            <button type="button" className="media-remove" onClick={() => remove(video, "video")} aria-label="Remove">×</button>
+            <span className="media-badge" style={{ background: "var(--forest)", color: "#fff", display: "inline-flex", alignItems: "center", gap: 4 }}><PaperPlaneTilt size={11} /> Video</span>
+            <button type="button" className="media-remove" onClick={() => remove(video, "video")} aria-label="Remove"><X size={14} /></button>
           </div>
         )}
         {photos.length < maxPhotos && (
           <button type="button" className="media-add" onClick={() => inputRef.current?.click()} disabled={busy}>
-            <span style={{ fontSize: 28 }}>{busy ? "⏳" : "+"}</span>
+            <Plus size={26} />
             <span style={{ fontSize: 11, color: "var(--muted)" }}>
               {busy ? "Uploading…" : "Add photo or video"}
             </span>

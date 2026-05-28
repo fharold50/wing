@@ -1,4 +1,4 @@
-import { Feather } from "lucide-react";
+import { Feather } from "@/lib/icons";
 
 export default function Footer() {
   return (

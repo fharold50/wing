@@ -1,4 +1,4 @@
-import { Star } from "lucide-react";
+import { Star } from "@/lib/icons";
 
 const TESTIS = [
   {
@@ -43,7 +43,7 @@ export default function Testimonials() {
             <span className="testi-tag">{t.tag}</span>
             <div className="testi-stars" aria-label="5 out of 5 stars">
               {Array.from({ length: 5 }).map((_, i) => (
-                <Star key={i} fill="currentColor" strokeWidth={0} />
+                <Star key={i} weight="fill" />
               ))}
             </div>
             <p className="testi-quote">{t.quote}</p>

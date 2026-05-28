@@ -1,3 +1,4 @@
+import { Compass } from "@/lib/icons";
 import { calculateMatchScore, distanceMiles } from "@/lib/matching";
 import { phraseDistance, phraseLastActive } from "@/lib/distance";
 import { getSession, listOtherWings } from "@/lib/session";
@@ -111,7 +112,7 @@ export default async function MapPage() {
 
         {wings.length === 0 && (
           <div className="empty-card">
-            <div className="empty-emoji">🪶</div>
+            <div className="empty-emoji"><Compass size={32} /></div>
             <div className="empty-title">No Wings nearby yet</div>
             <p>Set your location in onboarding and we&apos;ll group them by walk, bike, ride, and trip distance.</p>
           </div>

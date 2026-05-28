@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Feather } from "lucide-react";
+import { Feather } from "@/lib/icons";
 
 export default function Navbar() {
   return (

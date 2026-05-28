@@ -1,4 +1,4 @@
-import { Waves, Mountain, Wine, Music, UtensilsCrossed, Camera, Dumbbell, Coffee, Theater, Sun, Car, Dices } from "lucide-react";
+import { Waves, Mountain, Wine, Music, UtensilsCrossed, Camera, Dumbbell, Coffee, Theater, Sun, Car, Dices } from "@/lib/icons";
 import type { ComponentType, SVGProps } from "react";
 
 type Activity = [ComponentType<SVGProps<SVGSVGElement>>, string, string];

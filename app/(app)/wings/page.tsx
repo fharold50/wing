@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Inbox, Send, Users, MessageCircle } from "@/lib/icons";
 import { createClient } from "@/lib/supabase/server";
 import { isDemoMode, DEMO_CONNECTIONS, DEMO_WINGS, DEMO_USER } from "@/lib/demo";
 import { getSession } from "@/lib/session";
@@ -10,16 +11,14 @@ type ConnRow = {
   id: string;
   status: "pending" | "connected" | "declined";
   createdAt: string;
-  /** the "other" user (not me) */
   otherId: string;
   otherName: string;
   otherLocation: string;
-  /** true if I'm the receiver of this Wing-Up (so I can accept/decline) */
   iAmReceiver: boolean;
 };
 
 function pickColor(id: string) {
-  const cols = ["#ff6b1a", "#38bdf8", "#f472b6", "#22d3a0", "#a78bfa"];
+  const cols = ["#c1262d", "#4a6147", "#7a5b3f", "#3a4d8a", "#6b3e5f"];
   let h = 0; for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) | 0;
   return cols[Math.abs(h) % cols.length];
 }
@@ -83,7 +82,9 @@ export default async function WingsPage() {
 
       {incoming.length > 0 && (
         <>
-          <h3 className="wings-h">📥 Incoming Wing-Ups</h3>
+          <h3 className="wings-h" style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+            <Inbox size={20} /> Incoming Wing-Ups
+          </h3>
           <div className="wing-grid" style={{ marginBottom: 32 }}>
             {incoming.map((r) => (
               <div key={r.id} className="wing-card">
@@ -104,7 +105,9 @@ export default async function WingsPage() {
 
       {connected.length > 0 && (
         <>
-          <h3 className="wings-h">🪶 Connected</h3>
+          <h3 className="wings-h" style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+            <Users size={20} /> Connected
+          </h3>
           <div className="wing-grid" style={{ marginBottom: 32 }}>
             {connected.map((r) => (
               <div key={r.id} className="wing-card">
@@ -116,7 +119,9 @@ export default async function WingsPage() {
                   </div>
                 </div>
                 <div className="wing-foot">
-                  <Link href={`/messages/${r.otherId}`} className="btn btn-primary" style={{ flex: 1, justifyContent: "center" }}>💬 Message</Link>
+                  <Link href={`/messages/${r.otherId}`} className="btn btn-primary" style={{ flex: 1, justifyContent: "center" }}>
+                    <MessageCircle size={16} /> Message
+                  </Link>
                 </div>
               </div>
             ))}
@@ -126,7 +131,9 @@ export default async function WingsPage() {
 
       {sent.length > 0 && (
         <>
-          <h3 className="wings-h">📤 Sent</h3>
+          <h3 className="wings-h" style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+            <Send size={20} /> Sent
+          </h3>
           <div className="wing-grid">
             {sent.map((r) => (
               <div key={r.id} className="wing-card">
@@ -145,7 +152,7 @@ export default async function WingsPage() {
 
       {rows.length === 0 && (
         <div className="empty-card">
-          <div className="empty-emoji">🤝</div>
+          <div className="empty-emoji"><Users size={32} /></div>
           <div className="empty-title">No wings yet</div>
           <p>Head to Discover and send your first Wing-Up.</p>
         </div>

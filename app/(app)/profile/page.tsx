@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Camera, Star, Compass } from "@/lib/icons";
 import { getSession } from "@/lib/session";
 import MediaUploader from "@/components/app/MediaUploader";
 
@@ -19,7 +20,9 @@ export default async function ProfilePage() {
 
       <div className="profile-grid">
         <div className="wing-card" style={{ gridColumn: "1 / -1" }}>
-          <div className="wing-meta-name">📸 Photos &amp; video</div>
+          <div className="wing-meta-name" style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+            <Camera size={18} /> Photos &amp; video
+          </div>
           <p className="wing-bio">First photo becomes your cover on Discover. Add a short video to stand out.</p>
           <MediaUploader photos={me.photos ?? []} primaryVideo={me.primaryVideo} />
         </div>
@@ -36,7 +39,10 @@ export default async function ProfilePage() {
 
         <div className="wing-card">
           <div className="wing-meta-name">Verification</div>
-          <p className="wing-bio">⭐ {me.reputationScore.toFixed(2)} reputation · {me.verificationLevel} verified</p>
+          <p className="wing-bio" style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+            <Star size={14} weight="fill" style={{ color: "var(--accent)" }} />
+            {me.reputationScore.toFixed(2)} reputation · {me.verificationLevel} verified
+          </p>
           {me.verificationLevel !== "id" && (
             <div className="wing-foot">
               <button className="btn btn-primary">Bump to ID verified</button>
@@ -49,7 +55,11 @@ export default async function ProfilePage() {
           <p className="wing-bio">Currently in <strong>{me.location || "—"}</strong>{me.destination && <> · Heading to <strong>{me.destination}</strong></>}</p>
           <div className="wing-tags">
             <span className="wing-pill">{me.tripPurpose.replace("_", " ")}</span>
-            {me.isLocalGuide && <span className="wing-pill">🧭 Local Guide</span>}
+            {me.isLocalGuide && (
+              <span className="wing-pill" style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
+                <Compass size={12} /> Local Guide
+              </span>
+            )}
           </div>
         </div>
 

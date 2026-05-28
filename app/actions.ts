@@ -53,7 +53,7 @@ export async function respondConnection(id: string, status: "connected" | "decli
     await supabase.from("messages").insert({
       sender_id: user.id,
       receiver_id: conn.user_id,
-      content: "🪶 We're winged up! What did you have in mind?",
+      content: "We're winged up. What did you have in mind?",
       moderation_passed: true,
     });
   }

@@ -32,7 +32,7 @@ export default function FadeUpObserver() {
       { target: 2.4, suffix: "M+", decimals: 1 },
       { target: 190, suffix: "+", decimals: 0 },
       null,
-      { target: 4.9, suffix: "★", decimals: 1 },
+      { target: 4.9, suffix: "", decimals: 1 },
     ];
     const statsBar = document.querySelector(".stats-bar");
     let started = false;
