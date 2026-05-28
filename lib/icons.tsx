@@ -56,7 +56,7 @@ import {
   Wine as PWine,
   X as PX,
 } from "@phosphor-icons/react/dist/ssr";
-import type { IconProps } from "@phosphor-icons/react/dist/ssr";
+import type { IconProps } from "@phosphor-icons/react";
 
 type WingIconProps = Omit<IconProps, "weight"> & {
   /** Override the duotone weight if you really need a different look. */

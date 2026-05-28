@@ -1,15 +1,8 @@
 import { Cpu, BadgeCheck, MapPin, Flag, Star } from "@/lib/icons";
-import type { ComponentType } from "react";
 
 export const metadata = { title: "Safety Center · Wing" };
 
-type Item = {
-  Icon: ComponentType<{ size?: number | string; className?: string }>;
-  title: string;
-  body: string;
-};
-
-const ITEMS: Item[] = [
+const ITEMS = [
   { Icon: Cpu, title: "Anti-Hookup AI Moderation", body: "Every profile and message is scanned for romantic or sexual intent. Violating content is removed before it reaches anyone." },
   { Icon: BadgeCheck, title: "ID Verification", body: "Bump your verification to social or government ID for a badge — and to be shown to verified-only Wings." },
   { Icon: MapPin, title: "Approximate Location", body: "Wings see your distance and neighborhood — never your exact GPS pin." },

@@ -1,9 +1,6 @@
 import { Waves, Mountain, Wine, Music, UtensilsCrossed, Camera, Dumbbell, Coffee, Theater, Sun, Car, Dices } from "@/lib/icons";
-import type { ComponentType, SVGProps } from "react";
 
-type Activity = [ComponentType<SVGProps<SVGSVGElement>>, string, string];
-
-const ACTIVITIES: readonly Activity[] = [
+const ACTIVITIES = [
   [Waves, "Surf & Water", "Waves, kayak, paddleboard"],
   [Mountain, "Hiking", "Trails, peaks, nature walks"],
   [Wine, "Bars & Nightlife", "Lounges, rooftops, clubs"],

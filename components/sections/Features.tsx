@@ -1,15 +1,6 @@
 import { Target, Map, Shield, Calendar, Wine, Compass, Plane, Star, Smartphone } from "@/lib/icons";
-import type { ComponentType, SVGProps } from "react";
 
-type Feat = {
-  Icon: ComponentType<SVGProps<SVGSVGElement>>;
-  title: string;
-  body: string;
-  featured?: boolean;
-  delay?: string;
-};
-
-const FEATS: Feat[] = [
+const FEATS = [
   { Icon: Target, title: "Smart Wing Matching", body: "Our algorithm scores compatibility based on shared interests, activity intent, travel style, and energy. You see a match score before you even connect — no more guessing.", featured: true },
   { Icon: Map, title: "Real-Time Nearby Map", body: "See active Wings around you right now — not just registered users, but people who are out, available, and looking to connect today. Live activity map with filters.", delay: "delay-1" },
   { Icon: Shield, title: "Anti-Hookup AI Shield", body: "Our AI actively scans profiles and messages for romantic intent. The number-one failure of competing apps — we solve it at the infrastructure level, not just in policy.", delay: "delay-2" },

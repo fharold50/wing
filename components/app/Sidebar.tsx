@@ -4,16 +4,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Compass, Map, Calendar, Users, MessageCircle, User, Shield } from "@/lib/icons";
-import type { ComponentType } from "react";
 import SignOutButton from "@/components/auth/SignOutButton";
 
-type LinkDef = {
-  href: string;
-  Icon: ComponentType<{ size?: number | string; className?: string }>;
-  label: string;
-};
-
-const LINKS: LinkDef[] = [
+const LINKS = [
   { href: "/discover", Icon: Compass, label: "Discover" },
   { href: "/map", Icon: Map, label: "Nearby" },
   { href: "/activities", Icon: Calendar, label: "Activities" },

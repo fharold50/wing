@@ -2,11 +2,8 @@ import {
   Waves, Mountain, Wine, Music, UtensilsCrossed, Camera, Dumbbell,
   Coffee, Theater, Sun, Car, Dices, Calendar,
 } from "@/lib/icons";
-import type { ComponentType } from "react";
 
-type IconLike = ComponentType<{ size?: number | string; className?: string }>;
-
-export const ACTIVITY_ICON: Record<string, IconLike> = {
+export const ACTIVITY_ICON = {
   surf_water: Waves,
   hiking: Mountain,
   bars_nightlife: Wine,
@@ -37,6 +34,6 @@ export const ACTIVITY_LABEL: Record<string, string> = {
 };
 
 export function ActivityIcon({ type, size = 22, className }: { type: string; size?: number; className?: string }) {
-  const Icon = ACTIVITY_ICON[type] ?? Calendar;
+  const Icon = (ACTIVITY_ICON as Record<string, typeof Calendar>)[type] ?? Calendar;
   return <Icon size={size} className={className} />;
 }

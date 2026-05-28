@@ -1,13 +1,6 @@
 import { Cpu, BadgeCheck, MapPin, Star, Flag, Check, X, Feather } from "@/lib/icons";
-import type { ComponentType, SVGProps } from "react";
 
-type SafetyItem = {
-  Icon: ComponentType<SVGProps<SVGSVGElement>>;
-  title: string;
-  body: string;
-};
-
-const SAFETY_ITEMS: SafetyItem[] = [
+const SAFETY_ITEMS = [
   { Icon: Cpu, title: "AI Intent Moderation", body: "Scans every profile and message for romantic or inappropriate language. Automated removal before it reaches you." },
   { Icon: BadgeCheck, title: "Multi-Step ID Verification", body: "Phone number, social media, and optional government ID. Every Wing you see is a real, verified human being." },
   { Icon: MapPin, title: "Approximate Location Only", body: "Wings see your distance and neighborhood — never your exact address or GPS pin. Your privacy, your control." },
