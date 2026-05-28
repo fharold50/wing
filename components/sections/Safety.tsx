@@ -1,4 +1,4 @@
-import { Cpu, BadgeCheck, MapPin, Star, Flag, Check, X, Feather } from "lucide-react";
+import { Cpu, BadgeCheck, MapPin, Star, Flag, Check, X } from "lucide-react";
 import type { ComponentType, SVGProps } from "react";
 
 type SafetyItem = {
@@ -55,9 +55,7 @@ export default function Safety() {
         <div>
           <div className="vs-box fade-up delay-1">
             <div className="vs-row header">
-              <span className="vs-wing" style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-                <Feather size={12} /> Wing
-              </span>
+              <span className="vs-wing">Wing</span>
               <span className="vs-center">vs</span>
               <span className="vs-them">Others</span>
             </div>

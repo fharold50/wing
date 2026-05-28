@@ -1,11 +1,13 @@
 import Link from "next/link";
-import { Feather } from "lucide-react";
+import Image from "next/image";
 
 export default function Navbar() {
   return (
     <nav className="nav">
       <Link className="nav-logo" href="/">
-        <div className="nav-mark"><Feather /></div>
+        <div className="nav-mark">
+          <Image src="/wing-logo.png" alt="Wing" width={32} height={32} priority />
+        </div>
         Wing
       </Link>
       <ul className="nav-links">

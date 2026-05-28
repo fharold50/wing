@@ -19,11 +19,11 @@
   --muted: #7a7368;
   --muted-2: #a39a8c;
 
-  /* Accent — terracotta */
-  --accent: #b54f2c;
-  --accent-hover: #973f20;
-  --accent-soft: #f1d9cc;
-  --accent-tint: #fbeee5;
+  /* Accent — Wing red */
+  --accent: #c1262d;
+  --accent-hover: #9e1e25;
+  --accent-soft: #f3c8c8;
+  --accent-tint: #fbe6e6;
 
   /* Secondary — forest (used sparingly for "yes/safe") */
   --forest: #4a6147;
@@ -129,11 +129,13 @@ body {
 }
 .nav-logo span { color: var(--ink); }
 .nav-mark {
-  width: 30px; height: 30px;
+  width: 32px; height: 32px;
   display: flex; align-items: center; justify-content: center;
-  color: var(--accent);
+  border-radius: 7px;
+  overflow: hidden;
+  flex-shrink: 0;
 }
-.nav-mark svg { width: 100%; height: 100%; }
+.nav-mark svg, .nav-mark img { width: 100%; height: 100%; display: block; object-fit: cover; }
 .nav-links { display: flex; gap: 32px; list-style: none; }
 .nav-links a {
   color: var(--body); text-decoration: none;
