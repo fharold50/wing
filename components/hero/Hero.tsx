@@ -1,4 +1,4 @@
-import { Waves, Mountain, Wine, Music, Camera, Apple, Play, Globe } from "@/lib/icons";
+import { Waves, Mountain, Wine, Music, Camera, Fish, Apple, Play, Globe } from "@/lib/icons";
 
 export default function Hero() {
   return (
@@ -21,6 +21,7 @@ export default function Hero() {
         <div className="hero-pills fade-up delay-4">
           <span className="hero-pill"><Waves /> Surf together</span>
           <span className="hero-pill"><Mountain /> Hike together</span>
+          <span className="hero-pill"><Fish /> Fish together</span>
           <span className="hero-pill"><Wine /> Bar-hop together</span>
           <span className="hero-pill"><Music /> Hit shows together</span>
           <span className="hero-pill"><Camera /> Explore together</span>

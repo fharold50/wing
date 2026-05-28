@@ -30,6 +30,7 @@ import {
   DeviceMobile as PDeviceMobile,
   DiceFive as PDiceFive,
   Feather as PFeather,
+  Fish as PFish,
   Flag as PFlag,
   ForkKnife as PForkKnife,
   GlobeHemisphereWest as PGlobe,
@@ -106,6 +107,7 @@ export const DiceFive = makeIcon(PDiceFive, "DiceFive");
 export const Dices = DiceFive;
 
 export const Feather = makeIcon(PFeather, "Feather");
+export const Fish = makeIcon(PFish, "Fish");
 export const Flag = makeIcon(PFlag, "Flag");
 
 export const ForkKnife = makeIcon(PForkKnife, "ForkKnife");
