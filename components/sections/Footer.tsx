@@ -1,22 +1,27 @@
+import { Feather } from "lucide-react";
+
 export default function Footer() {
   return (
     <footer className="footer">
       <div className="footer-inner">
         <div>
-          <div className="footer-logo">🪶 W<span>ing</span></div>
+          <div className="footer-logo">
+            <div className="nav-mark"><Feather /></div>
+            Wing
+          </div>
           <p className="footer-desc">
             The social companion app for Wingmen and Wingwomen everywhere. Real friendships, real adventures, zero dating. Find your other wing.
           </p>
-          <p className="footer-tagline">&ldquo;Find Your Other Wing&rdquo; ™</p>
+          <p className="footer-tagline">&ldquo;Find your other wing.&rdquo;</p>
         </div>
         <div className="footer-col">
           <h4>Explore</h4>
           <ul>
-            <li><a href="#how">How It Works</a></li>
+            <li><a href="#how">How it works</a></li>
             <li><a href="#features">Features</a></li>
-            <li><a href="#activities">Activity Types</a></li>
-            <li><a href="#safety">Local Guides</a></li>
-            <li><a href="/safety">Safety Center</a></li>
+            <li><a href="#activities">Activity types</a></li>
+            <li><a href="#safety">Local guides</a></li>
+            <li><a href="/safety">Safety center</a></li>
           </ul>
         </div>
         <div className="footer-col">
@@ -42,8 +47,7 @@ export default function Footer() {
       </div>
       <div className="footer-bottom">
         <span>© {new Date().getFullYear()} Wing. All rights reserved.</span>
-        <span>🪶 Built for Wingmen &amp; Wingwomen equally — because great adventures have no gender bias</span>
-        <span>Made with ❤️ for explorers</span>
+        <span>Built for Wingmen and Wingwomen equally.</span>
       </div>
     </footer>
   );
