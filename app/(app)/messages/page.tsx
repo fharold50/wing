@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { MessageCircle } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { isDemoMode, DEMO_WINGS, DEMO_THREADS, DEMO_USER } from "@/lib/demo";
 
@@ -17,7 +18,7 @@ function initials(s: string) {
 }
 
 function pickColor(id: string) {
-  const cols = ["#ff6b1a", "#38bdf8", "#f472b6", "#22d3a0", "#a78bfa"];
+  const cols = ["#c1262d", "#4a6147", "#7a5b3f", "#3a4d8a", "#6b3e5f"];
   let h = 0; for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) | 0;
   return cols[Math.abs(h) % cols.length];
 }
@@ -59,7 +60,6 @@ export default async function MessagesPage() {
       }
     }
     convos = Array.from(byWing.values());
-    // Fill names
     const ids = convos.map((c) => c.wingId);
     if (ids.length) {
       const { data: ps } = await supabase.from("profiles").select("id, name").in("id", ids);
@@ -78,7 +78,7 @@ export default async function MessagesPage() {
 
       {convos.length === 0 ? (
         <div className="empty-card">
-          <div className="empty-emoji">💬</div>
+          <div className="empty-emoji"><MessageCircle /></div>
           <div className="empty-title">No conversations yet</div>
           <p>Send a Wing-Up from Discover and start a thread.</p>
         </div>

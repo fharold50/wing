@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Compass, Star } from "lucide-react";
 import { getSession } from "@/lib/session";
 
 export const metadata = { title: "Profile · Wing" };
@@ -29,7 +30,10 @@ export default async function ProfilePage() {
 
         <div className="wing-card">
           <div className="wing-meta-name">Verification</div>
-          <p className="wing-bio">⭐ {me.reputationScore.toFixed(2)} reputation · {me.verificationLevel} verified</p>
+          <p className="wing-bio" style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+            <Star size={14} fill="currentColor" strokeWidth={0} style={{ color: "var(--accent)" }} />
+            {me.reputationScore.toFixed(2)} reputation · {me.verificationLevel} verified
+          </p>
           {me.verificationLevel !== "id" && (
             <div className="wing-foot">
               <button className="btn btn-primary">Bump to ID verified</button>
@@ -42,7 +46,11 @@ export default async function ProfilePage() {
           <p className="wing-bio">Currently in <strong>{me.location || "—"}</strong>{me.destination && <> · Heading to <strong>{me.destination}</strong></>}</p>
           <div className="wing-tags">
             <span className="wing-pill">{me.tripPurpose.replace("_", " ")}</span>
-            {me.isLocalGuide && <span className="wing-pill">🧭 Local Guide</span>}
+            {me.isLocalGuide && (
+              <span className="wing-pill" style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
+                <Compass size={11} /> Local Guide
+              </span>
+            )}
           </div>
         </div>
 

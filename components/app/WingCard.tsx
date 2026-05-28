@@ -2,15 +2,16 @@
 
 import { useState, useTransition } from "react";
 import Link from "next/link";
+import { Compass, Check } from "lucide-react";
 import type { WingUser } from "@/lib/types";
 import { wingUp } from "@/app/actions";
 
 const AVATAR_COLORS = [
-  "linear-gradient(135deg,#ff6b1a,#ffb347)",
-  "linear-gradient(135deg,#38bdf8,#3b82f6)",
-  "linear-gradient(135deg,#f472b6,#ec4899)",
-  "linear-gradient(135deg,#22d3a0,#14b8a6)",
-  "linear-gradient(135deg,#a78bfa,#7c3aed)",
+  "#c1262d",
+  "#4a6147",
+  "#7a5b3f",
+  "#3a4d8a",
+  "#6b3e5f",
 ] as const;
 
 function initials(name: string) {
@@ -52,10 +53,14 @@ export default function WingCard({ user }: { user: WingUser }) {
         </div>
         <div>
           <div className="wing-meta-name">{user.name}</div>
-          <div className="wing-meta-sub">
-            {user.location}
-            {user.distanceMiles != null && isFinite(user.distanceMiles) && ` · ${Math.round(user.distanceMiles)} mi`}
-            {user.isLocalGuide && " · 🧭 Local Guide"}
+          <div className="wing-meta-sub" style={{ display: "inline-flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
+            <span>{user.location}</span>
+            {user.distanceMiles != null && isFinite(user.distanceMiles) && <span>· {Math.round(user.distanceMiles)} mi</span>}
+            {user.isLocalGuide && (
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
+                · <Compass size={12} /> Local Guide
+              </span>
+            )}
           </div>
         </div>
       </div>
@@ -71,7 +76,7 @@ export default function WingCard({ user }: { user: WingUser }) {
       <div className="wing-foot">
         <Link href={`/messages/${user.id}`} className="btn btn-ghost">Message</Link>
         <button className="btn btn-primary" onClick={send} disabled={pending || sent}>
-          {sent ? "✓ Sent" : pending ? "..." : "🪶 Wing Up"}
+          {sent ? (<><Check size={14} /> Sent</>) : pending ? "..." : "Wing up"}
         </button>
       </div>
     </div>

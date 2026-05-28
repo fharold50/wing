@@ -1,3 +1,4 @@
+import { Compass } from "lucide-react";
 import WingCard from "@/components/app/WingCard";
 import { calculateMatchScore, distanceMiles } from "@/lib/matching";
 import { getSession, listOtherWings } from "@/lib/session";
@@ -28,7 +29,7 @@ export default async function DiscoverPage() {
 
       {ranked.length === 0 ? (
         <div className="empty-card">
-          <div className="empty-emoji">🪶</div>
+          <div className="empty-emoji"><Compass /></div>
           <div className="empty-title">No Wings yet</div>
           <p>You&apos;re early — invite friends, or check back as more Wings join your area.</p>
         </div>

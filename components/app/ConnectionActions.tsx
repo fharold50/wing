@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { Check } from "lucide-react";
 import { respondConnection } from "@/app/actions";
 
 export default function ConnectionActions({ id }: { id: string }) {
@@ -15,7 +16,7 @@ export default function ConnectionActions({ id }: { id: string }) {
   }
 
   if (resolved === "connected") {
-    return <div className="wing-foot" style={{ color: "var(--green)", fontSize: 13, fontWeight: 600 }}>✓ Connected</div>;
+    return <div className="wing-foot" style={{ color: "var(--forest)", fontSize: 13, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 6 }}><Check size={14} /> Connected</div>;
   }
   if (resolved === "declined") {
     return <div className="wing-foot" style={{ color: "var(--muted)", fontSize: 13 }}>Declined</div>;
@@ -24,7 +25,7 @@ export default function ConnectionActions({ id }: { id: string }) {
   return (
     <div className="wing-foot">
       <button className="btn btn-ghost" onClick={() => go("declined")} disabled={pending}>Decline</button>
-      <button className="btn btn-primary" onClick={() => go("connected")} disabled={pending}>🪶 Accept</button>
+      <button className="btn btn-primary" onClick={() => go("connected")} disabled={pending}>Accept</button>
     </div>
   );
 }

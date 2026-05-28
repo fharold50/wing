@@ -1,3 +1,4 @@
+import { Compass } from "lucide-react";
 import { calculateMatchScore, distanceMiles } from "@/lib/matching";
 import { getSession, listOtherWings } from "@/lib/session";
 
@@ -28,7 +29,6 @@ export default async function MapPage() {
     .filter((w) => isFinite(w.miles))
     .sort((a, b) => a.miles - b.miles);
 
-  // Place pins inside the radar: distance → radius, hash → angle.
   const RADAR = 320;
   const MAX_R = RADAR / 2 - 24;
   const maxMiles = Math.max(1, ...wings.map((w) => w.miles));
@@ -49,7 +49,7 @@ export default async function MapPage() {
             <div className="radar-ring" style={{ inset: "40%" }} />
             <div className="radar-ring" style={{ inset: "60%" }} />
             <div className="radar-sweep" />
-            <div className="radar-me">🪶</div>
+            <div className="radar-me"><Compass /></div>
             {wings.slice(0, 14).map((w) => {
               let h = 0;
               for (let i = 0; i < w.id.length; i++) h = (h * 31 + w.id.charCodeAt(i)) | 0;
@@ -57,21 +57,21 @@ export default async function MapPage() {
               const r = (Math.sqrt(Math.min(w.miles, maxMiles) / maxMiles)) * MAX_R;
               const x = Math.cos(angle) * r;
               const y = Math.sin(angle) * r;
-              const color = w.gender === "woman" ? "var(--pink)" : w.gender === "man" ? "var(--sky)" : "var(--green)";
+              const color = w.gender === "woman" ? "var(--accent)" : w.gender === "man" ? "var(--forest)" : "var(--ink)";
               return (
                 <div
                   key={w.id}
                   className="radar-pin"
-                  style={{ left: `calc(50% + ${x}px - 9px)`, top: `calc(50% + ${y}px - 9px)`, background: color, boxShadow: `0 0 16px ${color}` }}
+                  style={{ left: `calc(50% + ${x}px - 7px)`, top: `calc(50% + ${y}px - 7px)`, background: color }}
                   title={`${w.name} · ${Math.round(w.miles)} mi`}
                 />
               );
             })}
           </div>
           <div className="radar-legend">
-            <span><i style={{ background: "var(--sky)" }} /> Wingmen</span>
-            <span><i style={{ background: "var(--pink)" }} /> Wingwomen</span>
-            <span><i style={{ background: "var(--green)" }} /> Nonbinary</span>
+            <span><i style={{ background: "var(--forest)" }} /> Wingmen</span>
+            <span><i style={{ background: "var(--accent)" }} /> Wingwomen</span>
+            <span><i style={{ background: "var(--ink)" }} /> Nonbinary</span>
           </div>
         </div>
 
@@ -81,7 +81,10 @@ export default async function MapPage() {
             <div key={w.id} className="nearby-row">
               <div className="nearby-left">
                 <strong>{w.name}</strong>
-                <span>{Math.round(w.miles)} mi {w.isLocalGuide && "· 🧭 Local"}</span>
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
+                  {Math.round(w.miles)} mi
+                  {w.isLocalGuide && <><span>·</span><Compass size={12} /> Local</>}
+                </span>
               </div>
               <div className="nearby-match">{w.match}%</div>
             </div>
