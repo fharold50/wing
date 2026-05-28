@@ -1,4 +1,4 @@
-import { Cpu, BadgeCheck, MapPin, Star, Flag, Check, X, Feather } from "lucide-react";
+import { Cpu, BadgeCheck, MapPin, Star, Flag, Check, X, Feather } from "@/lib/icons";
 import type { ComponentType, SVGProps } from "react";
 
 type SafetyItem = {

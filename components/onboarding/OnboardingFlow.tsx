@@ -11,18 +11,18 @@ const INTEREST_OPTIONS = [
 ];
 
 const ACTIVITY_OPTIONS = [
-  ["surf_water", "🏄 Surf & Water"],
-  ["hiking", "🥾 Hiking"],
-  ["bars_nightlife", "🍹 Bars & Nightlife"],
-  ["live_music", "🎵 Live Music"],
-  ["food_dining", "🍜 Food & Dining"],
-  ["photography", "📸 Photography"],
-  ["fitness", "🏋️ Fitness"],
-  ["coffee_chill", "☕ Coffee & Chill"],
-  ["arts_culture", "🎭 Arts & Culture"],
-  ["beach", "🏖️ Beach Days"],
-  ["road_trip", "🚗 Road Trips"],
-  ["games_leisure", "🎲 Games & Leisure"],
+  ["surf_water", "Surf & Water"],
+  ["hiking", "Hiking"],
+  ["bars_nightlife", "Bars & Nightlife"],
+  ["live_music", "Live Music"],
+  ["food_dining", "Food & Dining"],
+  ["photography", "Photography"],
+  ["fitness", "Fitness"],
+  ["coffee_chill", "Coffee & Chill"],
+  ["arts_culture", "Arts & Culture"],
+  ["beach", "Beach Days"],
+  ["road_trip", "Road Trips"],
+  ["games_leisure", "Games & Leisure"],
 ] as const;
 
 type FormState = {
@@ -216,7 +216,7 @@ export default function OnboardingFlow({ initial }: { initial: FormState }) {
             <button className="btn btn-primary" onClick={() => setStep(step + 1)}>Next</button>
           ) : (
             <button className="btn btn-primary" onClick={save} disabled={busy}>
-              {busy ? "Saving…" : "🪶 Finish"}
+              {busy ? "Saving…" : "Finish"}
             </button>
           )}
         </div>

@@ -1,4 +1,4 @@
-import { Waves, Mountain, Wine, Music, Camera, Apple, Play, Globe } from "lucide-react";
+import { Waves, Mountain, Wine, Music, Camera, Apple, Play, Globe } from "@/lib/icons";
 
 export default function Hero() {
   return (

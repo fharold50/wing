@@ -1,4 +1,4 @@
-import { Feather } from "lucide-react";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -6,7 +6,9 @@ export default function Footer() {
       <div className="footer-inner">
         <div>
           <div className="footer-logo">
-            <div className="nav-mark"><Feather /></div>
+            <div className="nav-mark">
+              <Image src="/wing-logo.png" alt="Wing" width={30} height={30} />
+            </div>
             Wing
           </div>
           <p className="footer-desc">

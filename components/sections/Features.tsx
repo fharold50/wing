@@ -1,4 +1,4 @@
-import { Target, Map, Shield, Calendar, Wine, Compass, Plane, Star, Smartphone } from "lucide-react";
+import { Target, Map, Shield, Calendar, Wine, Compass, Plane, Star, Smartphone } from "@/lib/icons";
 import type { ComponentType, SVGProps } from "react";
 
 type Feat = {

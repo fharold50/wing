@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ArrowLeft, Shield, MessageCircle } from "@/lib/icons";
 import { createClient } from "@/lib/supabase/server";
 import { isDemoMode, DEMO_WINGS, DEMO_THREADS, DEMO_USER } from "@/lib/demo";
 import { getSession } from "@/lib/session";
@@ -41,17 +42,21 @@ export default async function ThreadPage({ params }: { params: Promise<{ id: str
   return (
     <div className="thread-wrap">
       <div className="thread-head">
-        <Link href="/messages" className="btn btn-ghost" style={{ padding: "8px 14px" }}>← Back</Link>
+        <Link href="/messages" className="btn btn-ghost" style={{ padding: "8px 14px" }}>
+          <ArrowLeft size={16} /> Back
+        </Link>
         <div>
           <h1 className="thread-title">{wingName}</h1>
-          <div className="thread-sub">🛡️ Moderated thread · no dating, just wings</div>
+          <div className="thread-sub" style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+            <Shield size={12} /> Moderated thread — no dating, just wings
+          </div>
         </div>
       </div>
 
       <div className="thread-msgs">
         {messages.length === 0 && (
           <div className="empty-card" style={{ padding: 28 }}>
-            <div className="empty-emoji">🪶</div>
+            <div className="empty-emoji"><MessageCircle size={32} /></div>
             <div className="empty-title">Say hi</div>
             <p>Threads are end-to-end moderated. Stick to plans and vibes.</p>
           </div>

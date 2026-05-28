@@ -1,3 +1,4 @@
+import { Compass } from "@/lib/icons";
 import WingCard from "@/components/app/WingCard";
 import GoldenHourBanner from "@/components/app/GoldenHourBanner";
 import { calculateMatchScore, distanceMiles } from "@/lib/matching";
@@ -38,7 +39,7 @@ export default async function DiscoverPage() {
 
       {ranked.length === 0 ? (
         <div className="empty-card">
-          <div className="empty-emoji">🪶</div>
+          <div className="empty-emoji"><Compass size={32} /></div>
           <div className="empty-title">No Wings yet</div>
           <p>You&apos;re early &mdash; invite a friend, or check back tonight during Golden Hour.</p>
         </div>

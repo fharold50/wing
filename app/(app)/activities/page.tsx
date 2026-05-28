@@ -1,14 +1,10 @@
+import { Calendar } from "@/lib/icons";
 import { createClient } from "@/lib/supabase/server";
 import { isDemoMode, DEMO_PLANS } from "@/lib/demo";
 import PlanForm from "@/components/app/PlanForm";
+import { ActivityIcon } from "@/lib/activity-icons";
 
 export const metadata = { title: "Activities · Wing" };
-
-const ACTIVITY_EMOJI: Record<string, string> = {
-  surf_water: "🏄", hiking: "🥾", bars_nightlife: "🍹", live_music: "🎵",
-  food_dining: "🍜", photography: "📸", fitness: "🏋️", coffee_chill: "☕",
-  arts_culture: "🎭", beach: "🏖️", road_trip: "🚗", games_leisure: "🎲",
-};
 
 export default async function ActivitiesPage() {
   let plans: Array<{
@@ -59,16 +55,16 @@ export default async function ActivitiesPage() {
 
       {plans.length === 0 ? (
         <div className="empty-card">
-          <div className="empty-emoji">📅</div>
+          <div className="empty-emoji"><Calendar size={32} /></div>
           <div className="empty-title">No active plans yet</div>
-          <p>Be the first to post — surf at 6am, jazz bar at 9pm, hike Saturday. Wings will join.</p>
+          <p>Be the first to post — surf at six, jazz bar at nine, hike Saturday. Wings will join.</p>
         </div>
       ) : (
         <div className="wing-grid">
           {plans.map((p) => (
             <div key={p.id} className="wing-card">
               <div className="wing-card-head">
-                <div className="plan-emoji">{ACTIVITY_EMOJI[p.activity_type] ?? "📅"}</div>
+                <div className="plan-emoji"><ActivityIcon type={p.activity_type} size={22} /></div>
                 <div>
                   <div className="wing-meta-name">{p.title}</div>
                   <div className="wing-meta-sub">
@@ -83,7 +79,7 @@ export default async function ActivitiesPage() {
                 {p.host_name && <span className="wing-pill">Host: {p.host_name}</span>}
               </div>
               <div className="wing-foot">
-                <button className="btn btn-primary">🪶 Join</button>
+                <button className="btn btn-primary">Join</button>
               </div>
             </div>
           ))}

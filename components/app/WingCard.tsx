@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useTransition } from "react";
 import Link from "next/link";
+import { Check } from "@/lib/icons";
 import type { WingUser } from "@/lib/types";
 import { wingUp } from "@/app/actions";
 import { boostScore, getBoostState } from "@/lib/boostHour";
@@ -104,7 +105,7 @@ export default function WingCard({ user }: { user: WingUser }) {
       <div className="wing-foot">
         <Link href={`/messages/${user.id}`} className="btn btn-ghost">Message</Link>
         <button className="btn btn-primary" onClick={send} disabled={pending || sent}>
-          {sent ? "✓ Sent" : pending ? "..." : "Wing Up"}
+          {sent ? (<><Check size={14} /> Sent</>) : pending ? "..." : "Wing up"}
         </button>
       </div>
     </div>
