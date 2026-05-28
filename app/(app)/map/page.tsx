@@ -1,12 +1,38 @@
 import { calculateMatchScore, distanceMiles } from "@/lib/matching";
+import { phraseDistance, phraseLastActive } from "@/lib/distance";
 import { getSession, listOtherWings } from "@/lib/session";
 
 export const metadata = { title: "Nearby · Wing" };
 
-/**
- * No-API-key fallback "map" — a stylized neighborhood radar. When NEXT_PUBLIC_MAPBOX_TOKEN
- * is set, swap this for a real Mapbox view (TODO).
- */
+const BUCKET_ORDER = ["block", "walk", "bike", "ride", "city", "trip", "far"] as const;
+const BUCKET_LABEL: Record<string, string> = {
+  block: "On your block",
+  walk: "A walk away",
+  bike: "A short ride",
+  ride: "Across town",
+  city: "In the city",
+  trip: "Worth a road trip",
+  far: "Pre-trip planning",
+};
+
+const AVATAR_COLORS = [
+  "linear-gradient(135deg,#b54f2c,#d97757)",
+  "linear-gradient(135deg,#7d8a64,#a4b387)",
+  "linear-gradient(135deg,#5b6c8f,#7f93b5)",
+  "linear-gradient(135deg,#a87f50,#c8a378)",
+  "linear-gradient(135deg,#8f5b8c,#b07eae)",
+] as const;
+
+function initials(s: string) {
+  return s.split(/\s+/).filter(Boolean).slice(0, 2).map((p) => p[0]?.toUpperCase() ?? "").join("");
+}
+
+function pickColor(id: string) {
+  let h = 0;
+  for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) | 0;
+  return AVATAR_COLORS[Math.abs(h) % AVATAR_COLORS.length];
+}
+
 export default async function MapPage() {
   const session = await getSession();
   if (!session) return null;
@@ -16,77 +42,80 @@ export default async function MapPage() {
   const wings = others
     .map((u) => {
       const miles = distanceMiles(me.approxLat, me.approxLng, u.approxLat, u.approxLng);
+      const phrase = phraseDistance(miles);
       return {
         id: u.id,
         name: u.name,
+        photo: u.photos?.[0],
+        location: u.location,
         match: calculateMatchScore(me, u),
         miles,
+        phrase,
+        lastActive: u.lastActive,
         isLocalGuide: u.isLocalGuide,
-        gender: u.gender,
       };
     })
-    .filter((w) => isFinite(w.miles))
-    .sort((a, b) => a.miles - b.miles);
+    .sort((a, b) => (isFinite(a.miles) ? a.miles : Infinity) - (isFinite(b.miles) ? b.miles : Infinity));
 
-  // Place pins inside the radar: distance → radius, hash → angle.
-  const RADAR = 320;
-  const MAX_R = RADAR / 2 - 24;
-  const maxMiles = Math.max(1, ...wings.map((w) => w.miles));
+  // Group by bucket
+  const grouped = BUCKET_ORDER.map((b) => ({
+    bucket: b,
+    label: BUCKET_LABEL[b],
+    wings: wings.filter((w) => w.phrase.bucket === b),
+  })).filter((g) => g.wings.length > 0);
 
   return (
     <>
       <div className="page-head">
-        <div className="page-eyebrow">Real-time</div>
-        <h1 className="page-title">Wings near you</h1>
-        <p className="page-sub">Approximate locations only — never exact GPS. Filter by activity and distance.</p>
+        <div className="page-eyebrow">Distance Lens</div>
+        <h1 className="page-title">Wings near {me.location || "you"}</h1>
+        <p className="page-sub">
+          We never show your pin. Just how far &mdash; in minutes, miles, or moods. Sorted from your block outward.
+        </p>
       </div>
 
-      <div className="map-grid">
-        <div className="radar-wrap">
-          <div className="radar" style={{ width: RADAR, height: RADAR }}>
-            <div className="radar-ring" style={{ inset: 0 }} />
-            <div className="radar-ring" style={{ inset: "20%" }} />
-            <div className="radar-ring" style={{ inset: "40%" }} />
-            <div className="radar-ring" style={{ inset: "60%" }} />
-            <div className="radar-sweep" />
-            <div className="radar-me">🪶</div>
-            {wings.slice(0, 14).map((w) => {
-              let h = 0;
-              for (let i = 0; i < w.id.length; i++) h = (h * 31 + w.id.charCodeAt(i)) | 0;
-              const angle = ((Math.abs(h) % 360) * Math.PI) / 180;
-              const r = (Math.sqrt(Math.min(w.miles, maxMiles) / maxMiles)) * MAX_R;
-              const x = Math.cos(angle) * r;
-              const y = Math.sin(angle) * r;
-              const color = w.gender === "woman" ? "var(--pink)" : w.gender === "man" ? "var(--sky)" : "var(--green)";
-              return (
-                <div
-                  key={w.id}
-                  className="radar-pin"
-                  style={{ left: `calc(50% + ${x}px - 9px)`, top: `calc(50% + ${y}px - 9px)`, background: color, boxShadow: `0 0 16px ${color}` }}
-                  title={`${w.name} · ${Math.round(w.miles)} mi`}
-                />
-              );
-            })}
-          </div>
-          <div className="radar-legend">
-            <span><i style={{ background: "var(--sky)" }} /> Wingmen</span>
-            <span><i style={{ background: "var(--pink)" }} /> Wingwomen</span>
-            <span><i style={{ background: "var(--green)" }} /> Nonbinary</span>
-          </div>
-        </div>
-
-        <div className="nearby-list">
-          <h3 className="nearby-h">Closest Wings</h3>
-          {wings.slice(0, 8).map((w) => (
-            <div key={w.id} className="nearby-row">
-              <div className="nearby-left">
-                <strong>{w.name}</strong>
-                <span>{Math.round(w.miles)} mi {w.isLocalGuide && "· 🧭 Local"}</span>
-              </div>
-              <div className="nearby-match">{w.match}%</div>
+      <div className="lens-stack">
+        {grouped.map((group, gi) => (
+          <section key={group.bucket} className="lens-group">
+            <div className="lens-group-head">
+              <span className="lens-group-label">{group.label}</span>
+              <span className="lens-group-count">{group.wings.length} {group.wings.length === 1 ? "wing" : "wings"}</span>
             </div>
-          ))}
-        </div>
+            <div className="lens-row">
+              {group.wings.map((w) => (
+                <div key={w.id} className="lens-card" style={{ animationDelay: `${gi * 50 + 80}ms` }}>
+                  <div className="lens-avatar" style={{ background: pickColor(w.id) }}>
+                    {w.photo
+                      ? <img src={w.photo} alt={w.name} />
+                      : <span>{initials(w.name)}</span>}
+                  </div>
+                  <div className="lens-meta">
+                    <div className="lens-row-1">
+                      <strong>{w.name}</strong>
+                      <span className="lens-match">{w.match}%</span>
+                    </div>
+                    <div className="lens-row-2" title={w.phrase.long}>{w.phrase.label}</div>
+                    <div className="lens-row-3">
+                      <span>{w.location || "—"}</span>
+                      <span aria-hidden>·</span>
+                      <span>{phraseLastActive(w.lastActive)}</span>
+                      {w.isLocalGuide && (<><span aria-hidden>·</span><span className="lens-local">Local</span></>)}
+                    </div>
+                  </div>
+                  <a href={`/messages/${w.id}`} className="btn btn-ghost lens-btn">Message</a>
+                </div>
+              ))}
+            </div>
+          </section>
+        ))}
+
+        {wings.length === 0 && (
+          <div className="empty-card">
+            <div className="empty-emoji">🪶</div>
+            <div className="empty-title">No Wings nearby yet</div>
+            <p>Set your location in onboarding and we&apos;ll group them by walk, bike, ride, and trip distance.</p>
+          </div>
+        )}
       </div>
     </>
   );

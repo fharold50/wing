@@ -1,16 +1,18 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import Link from "next/link";
 import type { WingUser } from "@/lib/types";
 import { wingUp } from "@/app/actions";
+import { boostScore, getBoostState } from "@/lib/boostHour";
+import { phraseDistance } from "@/lib/distance";
 
 const AVATAR_COLORS = [
-  "linear-gradient(135deg,#ff6b1a,#ffb347)",
-  "linear-gradient(135deg,#38bdf8,#3b82f6)",
-  "linear-gradient(135deg,#f472b6,#ec4899)",
-  "linear-gradient(135deg,#22d3a0,#14b8a6)",
-  "linear-gradient(135deg,#a78bfa,#7c3aed)",
+  "linear-gradient(135deg,#b54f2c,#d97757)",
+  "linear-gradient(135deg,#7d8a64,#a4b387)",
+  "linear-gradient(135deg,#5b6c8f,#7f93b5)",
+  "linear-gradient(135deg,#a87f50,#c8a378)",
+  "linear-gradient(135deg,#8f5b8c,#b07eae)",
 ] as const;
 
 function initials(name: string) {
@@ -27,8 +29,20 @@ export default function WingCard({ user }: { user: WingUser }) {
   const [pending, startTransition] = useTransition();
   const [sent, setSent] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+
+  // Client-side Golden Hour boost — purely cosmetic.
+  const [boosted, setBoosted] = useState(false);
+  useEffect(() => {
+    setBoosted(getBoostState().active);
+    const id = setInterval(() => setBoosted(getBoostState().active), 30_000);
+    return () => clearInterval(id);
+  }, []);
+
   const cover = user.photos?.[0];
   const extras = (user.photos ?? []).slice(1, 5);
+  const baseScore = user.matchPercentage;
+  const score = baseScore != null ? boostScore(baseScore, boosted) : null;
+  const distance = user.distanceMiles != null ? phraseDistance(user.distanceMiles) : null;
 
   function send() {
     setErr(null);
@@ -45,8 +59,10 @@ export default function WingCard({ user }: { user: WingUser }) {
 
   return (
     <div className={`wing-card ${cover ? "has-cover" : ""}`}>
-      {user.matchPercentage != null && (
-        <div className="wing-match">{user.matchPercentage}% match</div>
+      {score != null && (
+        <div className="wing-match" title={boosted ? `Golden Hour boost (+15% display)` : undefined}>
+          {score}% match{boosted ? " ↑" : ""}
+        </div>
       )}
       {cover && (
         <div className="wing-cover">
@@ -64,8 +80,10 @@ export default function WingCard({ user }: { user: WingUser }) {
           <div className="wing-meta-name">{user.name}</div>
           <div className="wing-meta-sub">
             {user.location}
-            {user.distanceMiles != null && isFinite(user.distanceMiles) && ` · ${Math.round(user.distanceMiles)} mi`}
-            {user.isLocalGuide && " · 🧭 Local Guide"}
+            {distance && distance.bucket !== "far" && (
+              <> · <span title={distance.long}>{distance.label}</span></>
+            )}
+            {user.isLocalGuide && " · Local Guide"}
           </div>
         </div>
       </div>
@@ -86,7 +104,7 @@ export default function WingCard({ user }: { user: WingUser }) {
       <div className="wing-foot">
         <Link href={`/messages/${user.id}`} className="btn btn-ghost">Message</Link>
         <button className="btn btn-primary" onClick={send} disabled={pending || sent}>
-          {sent ? "✓ Sent" : pending ? "..." : "🪶 Wing Up"}
+          {sent ? "✓ Sent" : pending ? "..." : "Wing Up"}
         </button>
       </div>
     </div>
