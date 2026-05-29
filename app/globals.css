@@ -1119,3 +1119,282 @@ svg .ph-duotone-secondary {
 
 /* Hero CTA button — landing keeps the editorial ink button.
    Wing-red button gets used for app + auth surfaces (handled above). */
+
+/* ============================================================
+   v1.1 — Safety, voice, verification, travel, shield, tips
+   Hand-written to live alongside the editorial palette.
+   ============================================================ */
+
+/* ---- Safety center blocks ---- */
+.safety-block {
+  background: var(--paper); border: 1px solid var(--line);
+  border-radius: var(--radius-lg); padding: 28px 28px 24px;
+  margin-bottom: 24px;
+}
+.safety-h {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 22px; font-weight: 500; letter-spacing: -0.3px;
+  color: var(--ink); margin: 0 0 6px;
+}
+.safety-sub {
+  font-size: 14px; color: var(--muted); margin: 0 0 18px; line-height: 1.6;
+}
+
+/* ---- Trusted contact form ---- */
+.trusted-form { display: flex; flex-direction: column; gap: 14px; }
+.trusted-blurb {
+  font-size: 14px; color: var(--body); line-height: 1.7;
+  font-style: italic; font-family: var(--font-display), Georgia, serif;
+  border-left: 2px solid var(--accent); padding-left: 14px; margin: 0;
+}
+.trusted-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+@media (max-width: 760px) { .trusted-grid { grid-template-columns: 1fr; } }
+.trusted-saved {
+  font-size: 13px; color: var(--forest); font-weight: 500;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+
+/* ---- Shield Ticker (landing) ---- */
+.shield-ticker {
+  max-width: 760px; margin: 32px auto 0;
+  display: flex; align-items: center; gap: 16px;
+  padding: 16px 22px;
+  background: var(--paper); border: 1px solid var(--line);
+  border-radius: 999px;
+}
+.shield-ticker-icon {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--accent-tint); color: var(--accent);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.shield-ticker-text { font-size: 14px; color: var(--body); line-height: 1.5; }
+.shield-ticker-text strong {
+  color: var(--ink); font-family: var(--font-display), Georgia, serif;
+  font-weight: 500; font-size: 17px;
+}
+.shield-ticker-link { color: var(--accent); text-decoration: none; font-weight: 500; }
+.shield-ticker-link:hover { text-decoration: underline; }
+
+/* ---- Shield stats grid (safety center) ---- */
+.shield-stats {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+  margin-top: 6px;
+}
+@media (max-width: 700px) { .shield-stats { grid-template-columns: 1fr; } }
+.shield-stat {
+  background: var(--cream); border: 1px solid var(--line);
+  border-radius: var(--radius-lg); padding: 18px 20px;
+}
+.shield-num {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 32px; font-weight: 500; letter-spacing: -0.5px;
+  color: var(--ink); display: inline-flex; align-items: center; gap: 10px;
+}
+.shield-label {
+  font-size: 12px; color: var(--muted); letter-spacing: 0.4px;
+  text-transform: uppercase; margin-top: 4px;
+}
+.shield-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent);
+  animation: shield-pulse 1.8s ease-in-out infinite;
+}
+@keyframes shield-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.45; transform: scale(1.5); }
+}
+.shield-loading { color: var(--muted); font-size: 13px; }
+
+/* ---- Verified badge ---- */
+.verified-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 8px; border-radius: 999px;
+  background: var(--forest-soft); color: var(--forest);
+  border: 1px solid var(--forest); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.1px; vertical-align: middle;
+}
+.verified-badge.md { padding: 4px 12px; font-size: 13px; gap: 6px; }
+.verify-state {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 14px; padding: 10px 14px;
+  border-radius: var(--radius); border: 1px solid var(--line);
+}
+.verify-state.verified  { background: var(--forest-soft); color: var(--forest); border-color: var(--forest); }
+.verify-state.pending   { background: var(--accent-tint); color: var(--accent); border-color: var(--accent-soft); }
+.verify-blurb { font-size: 13px; color: var(--body); line-height: 1.6; margin-bottom: 12px; }
+.verify-rejected { font-size: 12px; color: var(--accent); margin-top: 8px; }
+
+/* ---- Voice note recorder + player ---- */
+.voice-recorder { display: flex; flex-direction: column; gap: 8px; }
+.voice-current { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.voice-current audio { flex: 1; min-width: 180px; height: 36px; }
+.voice-stop {
+  display: inline-flex; align-items: center; gap: 10px;
+  animation: voice-flash 1.4s ease-in-out infinite;
+}
+@keyframes voice-flash { 0%, 100% { opacity: 1; } 50% { opacity: 0.85; } }
+.voice-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 0 rgba(255,255,255,0.7);
+  animation: voice-dot 1s infinite;
+}
+@keyframes voice-dot {
+  0%   { box-shadow: 0 0 0 0 rgba(255,255,255,0.6); }
+  100% { box-shadow: 0 0 0 10px rgba(255,255,255,0); }
+}
+.voice-hint {
+  font-size: 12px; color: var(--muted); line-height: 1.55;
+  font-style: italic; font-family: var(--font-display), Georgia, serif;
+}
+.voice-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px; border-radius: 999px;
+  background: var(--accent-tint); color: var(--accent);
+  border: 1px solid var(--accent-soft); font-size: 11px; font-weight: 600;
+  cursor: pointer; transition: background 0.15s;
+}
+.voice-pill:hover    { background: var(--accent-soft); }
+.voice-pill.playing  { background: var(--accent); color: var(--cream); border-color: var(--accent); }
+
+/* ---- Meetups list page ---- */
+.meetup-list { display: flex; flex-direction: column; gap: 8px; }
+.meetup-row {
+  display: grid; grid-template-columns: 180px 1fr auto; gap: 16px;
+  align-items: center; padding: 14px 16px;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  text-decoration: none; color: inherit;
+  transition: border-color 0.15s, transform 0.15s;
+}
+.meetup-row:hover { border-color: var(--accent); transform: translateY(-1px); }
+.meetup-row.is-past { opacity: 0.65; }
+.meetup-when {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 14px; color: var(--ink); font-weight: 500;
+}
+.meetup-mid { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.meetup-mid strong { font-size: 15px; color: var(--ink); font-weight: 600; }
+.meetup-mid span   { font-size: 12px; color: var(--muted); }
+.meetup-status {
+  padding: 3px 10px; border-radius: 999px; font-size: 11px;
+  font-weight: 600; letter-spacing: 0.3px; text-transform: capitalize;
+  background: var(--paper-2); color: var(--muted);
+  border: 1px solid var(--line);
+}
+.meetup-status.status-scheduled  { background: var(--paper-2); color: var(--muted); }
+.meetup-status.status-confirmed  { background: var(--accent-tint); color: var(--accent); border-color: var(--accent-soft); }
+.meetup-status.status-in_progress{ background: var(--accent); color: var(--cream); border-color: var(--accent); }
+.meetup-status.status-completed  { background: var(--forest-soft); color: var(--forest); border-color: var(--forest); }
+.meetup-status.status-cancelled  { background: var(--paper-2); color: var(--muted); text-decoration: line-through; }
+.meetup-status.status-no_show    { background: #f3d6cf; color: #973f20; border-color: #ddb3a8; }
+.meetup-status.status-flagged    { background: #973f20; color: var(--cream); border-color: #5c2614; }
+@media (max-width: 700px) {
+  .meetup-row { grid-template-columns: 1fr; gap: 6px; }
+}
+
+/* ---- Check-in card (the headline feature) ---- */
+.checkin-card {
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--radius-lg); padding: 28px 28px 24px;
+  display: flex; flex-direction: column; gap: 14px;
+  max-width: 640px;
+}
+.checkin-card.stage-overdue { border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft) inset; }
+.checkin-card.stage-done    { border-color: var(--forest); }
+.checkin-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.checkin-eyebrow {
+  font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--muted); font-weight: 600;
+}
+.checkin-pill {
+  font-size: 11px; padding: 3px 10px; border-radius: 999px;
+  background: var(--paper-2); color: var(--muted); border: 1px solid var(--line);
+  font-weight: 600; letter-spacing: 0.3px; text-transform: uppercase;
+}
+.checkin-pill.stage-confirm    { background: var(--accent-tint); color: var(--accent); border-color: var(--accent-soft); }
+.checkin-pill.stage-arrive,
+.checkin-pill.stage-during,
+.checkin-pill.stage-safe_signal{ background: var(--accent); color: var(--cream); border-color: var(--accent); }
+.checkin-pill.stage-overdue    { background: #973f20; color: var(--cream); border-color: #5c2614; }
+.checkin-pill.stage-done       { background: var(--forest-soft); color: var(--forest); border-color: var(--forest); }
+.checkin-with { font-size: 13px; color: var(--muted); }
+.checkin-with strong { color: var(--ink); font-weight: 600; }
+.checkin-headline {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 22px; font-weight: 500; letter-spacing: -0.3px;
+  color: var(--ink); line-height: 1.3; margin: 0;
+}
+.checkin-overdue {
+  display: flex; flex-direction: column; gap: 8px;
+  padding: 14px 16px; border-radius: var(--radius);
+  background: #fbeee5; border: 1px solid var(--accent-soft);
+}
+.checkin-overdue strong { color: #973f20; font-weight: 600; font-size: 14px; }
+.checkin-overdue span   { color: var(--body); font-size: 13px; line-height: 1.5; }
+.checkin-done {
+  padding: 10px 14px; border-radius: var(--radius);
+  background: var(--forest-soft); color: var(--forest);
+  font-size: 14px; font-weight: 500;
+}
+
+/* ---- Travel boards ---- */
+.travel-block { margin-bottom: 36px; }
+.trip-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+.trip-card {
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--radius-lg); padding: 18px 20px;
+  display: flex; flex-direction: column; gap: 8px;
+  transition: border-color 0.15s, transform 0.15s;
+}
+.trip-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+.trip-where {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 17px; color: var(--ink); font-weight: 500;
+}
+.trip-country { color: var(--muted); font-weight: 400; }
+.trip-when    { font-size: 13px; color: var(--muted); }
+.trip-who     { font-size: 13px; color: var(--ink); font-weight: 500; }
+.trip-note    { font-size: 13px; color: var(--body); line-height: 1.6; margin: 4px 0 0; }
+.trip-foot    { display: flex; gap: 8px; margin-top: 8px; }
+.trip-foot .btn { padding: 6px 14px; font-size: 13px; }
+
+/* ---- Tip Jar ---- */
+.tip-jar { display: flex; flex-direction: column; gap: 12px; }
+.tip-blurb {
+  font-size: 13px; color: var(--body); line-height: 1.6;
+  font-style: italic; font-family: var(--font-display), Georgia, serif;
+  margin: 0;
+}
+.tip-presets { display: flex; gap: 8px; flex-wrap: wrap; }
+.tip-preset {
+  flex: 1; min-width: 60px;
+  padding: 10px 14px; border-radius: var(--radius);
+  background: var(--paper); border: 1px solid var(--line);
+  color: var(--ink); font-weight: 600; font-size: 14px;
+  cursor: pointer; transition: border-color 0.15s, background 0.15s;
+}
+.tip-preset:hover { border-color: var(--accent); background: var(--accent-tint); }
+.tip-preset:disabled { opacity: 0.5; cursor: wait; }
+.tip-custom {
+  display: flex; align-items: center; gap: 8px;
+  padding: 4px 4px 4px 12px;
+  background: var(--paper); border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.tip-custom span { color: var(--muted); font-weight: 600; }
+.tip-custom input {
+  flex: 1; border: 0; background: transparent; outline: none;
+  font-size: 14px; color: var(--ink); padding: 8px 0;
+}
+.tip-custom .btn { padding: 8px 18px; font-size: 13px; }
+.tip-thanks {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 16px; border-radius: var(--radius);
+  background: var(--forest-soft); color: var(--forest);
+  font-size: 14px; font-weight: 500;
+}

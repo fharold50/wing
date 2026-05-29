@@ -24,6 +24,10 @@ type DBRow = {
   created_at: string;
   photos: string[] | null;
   primary_video: string | null;
+  voice_url: string | null;
+  photo_verification_status: WingUser["photoVerificationStatus"] | null;
+  photo_verified_at: string | null;
+  last_seen_at: string | null;
 };
 
 export function rowToUser(r: DBRow): WingUser {
@@ -49,6 +53,10 @@ export function rowToUser(r: DBRow): WingUser {
     lastActive: r.last_active,
     photos: r.photos ?? [],
     primaryVideo: r.primary_video ?? undefined,
+    voiceUrl: r.voice_url ?? undefined,
+    photoVerificationStatus: r.photo_verification_status ?? "none",
+    photoVerifiedAt: r.photo_verified_at ?? undefined,
+    lastSeenAt: r.last_seen_at ?? undefined,
   };
 }
 

@@ -3,17 +3,19 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Compass, Map, Calendar, Users, MessageCircle, User, Shield } from "@/lib/icons";
+import { Compass, Map, Calendar, Users, MessageCircle, User, Shield, Plane, BellRinging } from "@/lib/icons";
 import SignOutButton from "@/components/auth/SignOutButton";
 
 const LINKS = [
-  { href: "/discover", Icon: Compass, label: "Discover" },
-  { href: "/map", Icon: Map, label: "Nearby" },
-  { href: "/activities", Icon: Calendar, label: "Activities" },
-  { href: "/wings", Icon: Users, label: "My Wings" },
-  { href: "/messages", Icon: MessageCircle, label: "Messages" },
-  { href: "/profile", Icon: User, label: "Profile" },
-  { href: "/safety", Icon: Shield, label: "Safety" },
+  { href: "/discover",  Icon: Compass,        label: "Discover" },
+  { href: "/map",       Icon: Map,            label: "Nearby" },
+  { href: "/travel",    Icon: Plane,          label: "Travel" },
+  { href: "/activities",Icon: Calendar,       label: "Activities" },
+  { href: "/wings",     Icon: Users,          label: "My Wings" },
+  { href: "/meetups",   Icon: BellRinging,    label: "Meetups" },
+  { href: "/messages",  Icon: MessageCircle,  label: "Messages" },
+  { href: "/profile",   Icon: User,           label: "Profile" },
+  { href: "/safety",    Icon: Shield,         label: "Safety" },
 ];
 
 export default function Sidebar({ name, isDemo }: { name?: string; isDemo?: boolean }) {

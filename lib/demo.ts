@@ -43,6 +43,9 @@ export const DEMO_WINGS: WingUser[] = [
     isActive: true, gender: "woman", lookingFor: ["any"],
     createdAt: "", lastActive: new Date().toISOString(),
     photos: ["https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=640&q=80&auto=format&fit=crop"],
+    photoVerificationStatus: "verified",
+    photoVerifiedAt: new Date(Date.now() - 12 * 86400_000).toISOString(),
+    lastSeenAt: new Date(Date.now() - 4 * 60_000).toISOString(),
   },
   {
     id: "u2", name: "Marcus K.", age: 31, location: "Honolulu, HI",
@@ -56,6 +59,9 @@ export const DEMO_WINGS: WingUser[] = [
     isActive: true, gender: "man", lookingFor: ["any"],
     createdAt: "", lastActive: new Date().toISOString(),
     photos: ["https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=640&q=80&auto=format&fit=crop"],
+    photoVerificationStatus: "verified",
+    photoVerifiedAt: new Date(Date.now() - 30 * 86400_000).toISOString(),
+    lastSeenAt: new Date(Date.now() - 18 * 60_000).toISOString(),
   },
   {
     id: "u3", name: "Diego C.", age: 34, location: "Miami, FL",
@@ -69,6 +75,9 @@ export const DEMO_WINGS: WingUser[] = [
     isActive: true, gender: "man", lookingFor: ["any"],
     createdAt: "", lastActive: new Date(Date.now() - 12 * 60_000).toISOString(),
     photos: ["https://images.unsplash.com/photo-1539367628448-4bc5c9d171c8?w=640&q=80&auto=format&fit=crop"],
+    photoVerificationStatus: "verified",
+    photoVerifiedAt: new Date(Date.now() - 60 * 86400_000).toISOString(),
+    lastSeenAt: new Date(Date.now() - 2 * 60_000).toISOString(),
   },
   {
     id: "u4", name: "Priya S.", age: 26, location: "Brooklyn, NY",
@@ -107,6 +116,9 @@ export const DEMO_WINGS: WingUser[] = [
     isActive: true, gender: "woman", lookingFor: ["any"],
     createdAt: "", lastActive: new Date(Date.now() - 30 * 60_000).toISOString(),
     photos: ["https://images.unsplash.com/photo-1488161628813-04466f872be2?w=640&q=80&auto=format&fit=crop"],
+    photoVerificationStatus: "verified",
+    photoVerifiedAt: new Date(Date.now() - 90 * 86400_000).toISOString(),
+    lastSeenAt: new Date(Date.now() - 8 * 60_000).toISOString(),
   },
   {
     id: "u7", name: "Jordan W.", age: 25, location: "Brooklyn, NY",

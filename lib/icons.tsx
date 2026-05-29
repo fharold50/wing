@@ -39,6 +39,7 @@ import {
   MapTrifold as PMapTrifold,
   MaskHappy as PMaskHappy,
   Mountains as PMountains,
+  Microphone as PMicrophone,
   MusicNote as PMusicNote,
   PaperPlaneTilt as PPaperPlaneTilt,
   Plus as PPlus,
@@ -87,6 +88,7 @@ export const Barbell = makeIcon(PBarbell, "Barbell");
 export const Dumbbell = Barbell;
 
 export const Bell = makeIcon(PBellRinging, "Bell");
+export const BellRinging = Bell;
 
 export const Calendar = makeIcon(PCalendar, "Calendar");
 export const Camera = makeIcon(PCamera, "Camera");
@@ -125,6 +127,8 @@ export const Theater = MaskHappy;
 export const Mountains = makeIcon(PMountains, "Mountains");
 export const Mountain = Mountains;
 
+export const Microphone = makeIcon(PMicrophone, "Microphone");
+export const Mic = Microphone;
 export const MusicNote = makeIcon(PMusicNote, "MusicNote");
 export const Music = MusicNote;
 

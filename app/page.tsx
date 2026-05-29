@@ -9,6 +9,7 @@ import Safety from "@/components/sections/Safety";
 import Testimonials from "@/components/sections/Testimonials";
 import CTA from "@/components/sections/CTA";
 import Footer from "@/components/sections/Footer";
+import ShieldTicker from "@/components/sections/ShieldTicker";
 import FadeUpObserver from "@/components/ui/FadeUpObserver";
 
 export default function Home() {
@@ -20,6 +21,7 @@ export default function Home() {
 
       <Navbar />
       <Hero />
+      <ShieldTicker />
       <InclusiveBanner />
       <StatsBar />
       <Features />

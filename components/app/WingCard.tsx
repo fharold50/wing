@@ -6,7 +6,9 @@ import { Check } from "@/lib/icons";
 import type { WingUser } from "@/lib/types";
 import { wingUp } from "@/app/actions";
 import { boostScore, getBoostState } from "@/lib/boostHour";
-import { phraseDistance } from "@/lib/distance";
+import { phraseDistance, phraseLastActive } from "@/lib/distance";
+import VerifiedBadge from "@/components/profile/VerifiedBadge";
+import VoiceNotePlayer from "@/components/profile/VoiceNotePlayer";
 
 const AVATAR_COLORS = [
   "linear-gradient(135deg,#b54f2c,#d97757)",
@@ -78,7 +80,10 @@ export default function WingCard({ user }: { user: WingUser }) {
           </div>
         )}
         <div>
-          <div className="wing-meta-name">{user.name}</div>
+          <div className="wing-meta-name" style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+            {user.name}
+            {user.photoVerificationStatus === "verified" && <VerifiedBadge iconOnly />}
+          </div>
           <div className="wing-meta-sub">
             {user.location}
             {distance && distance.bucket !== "far" && (
@@ -86,7 +91,11 @@ export default function WingCard({ user }: { user: WingUser }) {
             )}
             {user.isLocalGuide && " · Local Guide"}
           </div>
+          <div className="wing-meta-sub" style={{ fontSize: 11, marginTop: 2 }}>
+            {phraseLastActive(user.lastSeenAt ?? user.lastActive)}
+          </div>
         </div>
+        {user.voiceUrl && <div style={{ marginLeft: "auto" }}><VoiceNotePlayer url={user.voiceUrl} /></div>}
       </div>
       {extras.length > 0 && (
         <div className="wing-photo-strip">

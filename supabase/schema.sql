@@ -297,3 +297,133 @@ drop policy if exists "media_delete_own_folder" on storage.objects;
 create policy "media_delete_own_folder" on storage.objects
   for delete to authenticated
   using (bucket_id = 'media' and auth.uid()::text = (storage.foldername(name))[1]);
+
+------------------------------------------------------------
+-- v1.1 — Trust, voice, activity, travel, tips, shield.
+------------------------------------------------------------
+
+alter table public.profiles add column if not exists voice_url text;
+alter table public.profiles add column if not exists photo_verification_status text default 'none'
+  check (photo_verification_status in ('none','pending','verified','rejected'));
+alter table public.profiles add column if not exists photo_verified_at timestamptz;
+alter table public.profiles add column if not exists last_seen_at timestamptz default now();
+alter table public.profiles add column if not exists shield_blocks_total int default 0;
+
+-- Trusted contacts (1 per user — the person Wing texts if you don't check in).
+create table if not exists public.trusted_contacts (
+  user_id uuid primary key references public.profiles(id) on delete cascade,
+  name text not null,
+  email text,
+  phone text,
+  updated_at timestamptz default now()
+);
+alter table public.trusted_contacts enable row level security;
+drop policy if exists "tc_owner_all" on public.trusted_contacts;
+create policy "tc_owner_all" on public.trusted_contacts
+  for all to authenticated using (user_id = auth.uid()) with check (user_id = auth.uid());
+
+-- Meetups — the safety primitive.
+create table if not exists public.meetups (
+  id uuid primary key default gen_random_uuid(),
+  host_id uuid not null references public.profiles(id) on delete cascade,
+  guest_id uuid not null references public.profiles(id) on delete cascade,
+  scheduled_at timestamptz not null,
+  location_label text not null,
+  activity_type text,
+  status text not null default 'scheduled'
+    check (status in ('scheduled','confirmed','in_progress','completed','cancelled','no_show','flagged')),
+  host_confirmed_at timestamptz,
+  guest_confirmed_at timestamptz,
+  host_arrived_at timestamptz,
+  guest_arrived_at timestamptz,
+  host_safe_signal_at timestamptz,
+  guest_safe_signal_at timestamptz,
+  contact_notified_at timestamptz,
+  created_at timestamptz default now(),
+  unique (host_id, guest_id, scheduled_at)
+);
+create index if not exists idx_meetups_host on public.meetups (host_id, scheduled_at desc);
+create index if not exists idx_meetups_guest on public.meetups (guest_id, scheduled_at desc);
+create index if not exists idx_meetups_upcoming on public.meetups (scheduled_at) where status in ('scheduled','confirmed','in_progress');
+alter table public.meetups enable row level security;
+drop policy if exists "meetup_party_select" on public.meetups;
+create policy "meetup_party_select" on public.meetups
+  for select to authenticated using (host_id = auth.uid() or guest_id = auth.uid());
+drop policy if exists "meetup_party_insert" on public.meetups;
+create policy "meetup_party_insert" on public.meetups
+  for insert to authenticated with check (host_id = auth.uid());
+drop policy if exists "meetup_party_update" on public.meetups;
+create policy "meetup_party_update" on public.meetups
+  for update to authenticated using (host_id = auth.uid() or guest_id = auth.uid()) with check (host_id = auth.uid() or guest_id = auth.uid());
+
+-- Trips — pre-trip planning.
+create table if not exists public.trips (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references public.profiles(id) on delete cascade,
+  city text not null,
+  country text,
+  start_date date not null,
+  end_date date not null,
+  note text,
+  created_at timestamptz default now(),
+  check (end_date >= start_date)
+);
+create index if not exists idx_trips_city_dates on public.trips (city, start_date, end_date);
+create index if not exists idx_trips_user on public.trips (user_id, start_date desc);
+alter table public.trips enable row level security;
+drop policy if exists "trip_public_select" on public.trips;
+create policy "trip_public_select" on public.trips
+  for select to authenticated using (true);
+drop policy if exists "trip_owner_insert" on public.trips;
+create policy "trip_owner_insert" on public.trips
+  for insert to authenticated with check (user_id = auth.uid());
+drop policy if exists "trip_owner_modify" on public.trips;
+create policy "trip_owner_modify" on public.trips
+  for update to authenticated using (user_id = auth.uid()) with check (user_id = auth.uid());
+drop policy if exists "trip_owner_delete" on public.trips;
+create policy "trip_owner_delete" on public.trips
+  for delete to authenticated using (user_id = auth.uid());
+
+-- Tips — Local Guide tipping (Stripe Connect wired in a follow-up).
+create table if not exists public.tips (
+  id uuid primary key default gen_random_uuid(),
+  from_id uuid not null references public.profiles(id) on delete cascade,
+  to_id uuid not null references public.profiles(id) on delete cascade,
+  meetup_id uuid references public.meetups(id) on delete set null,
+  amount_cents int not null check (amount_cents > 0),
+  currency text default 'usd',
+  status text default 'pending' check (status in ('pending','paid','cancelled','refunded')),
+  stripe_payment_intent text,
+  created_at timestamptz default now()
+);
+create index if not exists idx_tips_to on public.tips (to_id, created_at desc);
+alter table public.tips enable row level security;
+drop policy if exists "tip_party_select" on public.tips;
+create policy "tip_party_select" on public.tips
+  for select to authenticated using (from_id = auth.uid() or to_id = auth.uid());
+drop policy if exists "tip_giver_insert" on public.tips;
+create policy "tip_giver_insert" on public.tips
+  for insert to authenticated with check (from_id = auth.uid());
+
+-- Shield blocks — every blocked message. No user/content stored, just the
+-- count. Powers the public ticker on the landing page.
+create table if not exists public.shield_blocks (
+  id bigserial primary key,
+  blocked_at timestamptz default now(),
+  category text
+);
+create index if not exists idx_shield_blocks_day on public.shield_blocks (blocked_at desc);
+alter table public.shield_blocks enable row level security;
+drop policy if exists "shield_no_direct_read" on public.shield_blocks;
+create policy "shield_no_direct_read" on public.shield_blocks
+  for select to public using (false);
+
+create or replace function public.shield_counts()
+returns table(total bigint, last_24h bigint, last_30d bigint)
+language sql security definer set search_path = public, pg_temp as $$
+  select
+    (select count(*) from public.shield_blocks)::bigint as total,
+    (select count(*) from public.shield_blocks where blocked_at > now() - interval '24 hours')::bigint as last_24h,
+    (select count(*) from public.shield_blocks where blocked_at > now() - interval '30 days')::bigint as last_30d;
+$$;
+grant execute on function public.shield_counts() to anon, authenticated;

@@ -46,6 +46,65 @@ export interface WingUser {
   lastActive: string;
   photos?: string[];
   primaryVideo?: string;
+  voiceUrl?: string;
+  photoVerificationStatus?: "none" | "pending" | "verified" | "rejected";
+  photoVerifiedAt?: string;
+  lastSeenAt?: string;
+}
+
+export type MeetupStatus =
+  | "scheduled"
+  | "confirmed"
+  | "in_progress"
+  | "completed"
+  | "cancelled"
+  | "no_show"
+  | "flagged";
+
+export interface Meetup {
+  id: string;
+  hostId: string;
+  guestId: string;
+  scheduledAt: string;
+  locationLabel: string;
+  activityType?: ActivityType;
+  status: MeetupStatus;
+  hostConfirmedAt?: string | null;
+  guestConfirmedAt?: string | null;
+  hostArrivedAt?: string | null;
+  guestArrivedAt?: string | null;
+  hostSafeSignalAt?: string | null;
+  guestSafeSignalAt?: string | null;
+  contactNotifiedAt?: string | null;
+  createdAt: string;
+}
+
+export interface TrustedContact {
+  name: string;
+  email?: string;
+  phone?: string;
+}
+
+export interface Trip {
+  id: string;
+  userId: string;
+  city: string;
+  country?: string;
+  startDate: string;
+  endDate: string;
+  note?: string;
+  createdAt: string;
+}
+
+export interface Tip {
+  id: string;
+  fromId: string;
+  toId: string;
+  meetupId?: string | null;
+  amountCents: number;
+  currency: string;
+  status: "pending" | "paid" | "cancelled" | "refunded";
+  createdAt: string;
 }
 
 export interface ActivityPlan {
