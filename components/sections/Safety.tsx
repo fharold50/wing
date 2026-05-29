@@ -1,4 +1,5 @@
 import { Cpu, BadgeCheck, MapPin, Star, Flag, Check, X, Feather } from "@/lib/icons";
+import LiveShieldCounter from "@/components/marketing/LiveShieldCounter";
 
 const SAFETY_ITEMS = [
   { Icon: Cpu, title: "AI Intent Moderation", body: "Scans every profile and message for romantic or inappropriate language. Automated removal before it reaches you." },
@@ -33,6 +34,11 @@ export default function Safety() {
           <p style={{ fontSize: 16, color: "var(--body)", lineHeight: 1.7, marginBottom: 8 }}>
             The number-one complaint across competitor apps is men using them to seek hookups. We designed Wing from the ground up so Wingwomen feel completely safe — because when women trust a platform, everyone wins.
           </p>
+          <div className="shield-counter-wrap fade-up">
+            <div className="shield-counter-label">Anti-Hookup AI Shield, live</div>
+            <LiveShieldCounter />
+            <div className="shield-counter-foot">Messages caught by the Shield before they ever reached a Wing.</div>
+          </div>
           <div className="safety-list">
             {SAFETY_ITEMS.map((s, i) => (
               <div key={s.title} className={`safety-item fade-up ${i ? `delay-${i}` : ""}`}>
